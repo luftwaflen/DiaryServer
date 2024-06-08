@@ -1,7 +1,7 @@
 ﻿namespace Domain.Models;
 
-public class Patient : User
+public class Doctor : User
 {
-    public virtual Diary Diary { get; set; }
+    public virtual List<Patient>? Patients { get; set; }
     public virtual List<Recipe>? Recipes { get; set; }
 }

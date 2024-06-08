@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DiaryDbContext))]
-    [Migration("20240608101725_DbInit")]
+    [Migration("20240608113437_DbInit")]
     partial class DbInit
     {
         /// <inheritdoc />
@@ -100,6 +100,31 @@ namespace Infrastructure.Migrations
                     b.ToTable("FamilyRoles");
                 });
 
+            modelBuilder.Entity("Domain.Models.Recipe", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Recipes");
+                });
+
             modelBuilder.Entity("Domain.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -162,6 +187,13 @@ namespace Infrastructure.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("Domain.Models.Doctor", b =>
+                {
+                    b.HasBaseType("Domain.Models.User");
+
+                    b.HasDiscriminator().HasValue("Doctor");
+                });
+
             modelBuilder.Entity("Domain.Models.Patient", b =>
                 {
                     b.HasBaseType("Domain.Models.User");
@@ -169,7 +201,12 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("DiaryId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasIndex("DiaryId");
+
+                    b.HasIndex("DoctorId");
 
                     b.HasDiscriminator().HasValue("Patient");
                 });
@@ -179,6 +216,25 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Models.Diary", null)
                         .WithMany("DiaryNotes")
                         .HasForeignKey("DiaryId");
+                });
+
+            modelBuilder.Entity("Domain.Models.Recipe", b =>
+                {
+                    b.HasOne("Domain.Models.Doctor", "Doctor")
+                        .WithMany("Recipes")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.Patient", "Patient")
+                        .WithMany("Recipes")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Domain.Models.User", b =>
@@ -212,6 +268,10 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Models.Doctor", null)
+                        .WithMany("Patients")
+                        .HasForeignKey("DoctorId");
+
                     b.Navigation("Diary");
                 });
 
@@ -223,6 +283,18 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Models.Family", b =>
                 {
                     b.Navigation("FamilyMembers");
+                });
+
+            modelBuilder.Entity("Domain.Models.Doctor", b =>
+                {
+                    b.Navigation("Patients");
+
+                    b.Navigation("Recipes");
+                });
+
+            modelBuilder.Entity("Domain.Models.Patient", b =>
+                {
+                    b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618
         }

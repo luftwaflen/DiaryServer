@@ -91,7 +91,8 @@ namespace Infrastructure.Migrations
                     FamilyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     FamilyRoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
-                    DiaryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    DiaryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -118,6 +119,37 @@ namespace Infrastructure.Migrations
                         principalTable: "UserRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Users_Users_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Recipes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Recipes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Recipes_Users_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Recipes_Users_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -126,9 +158,24 @@ namespace Infrastructure.Migrations
                 column: "DiaryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Recipes_DoctorId",
+                table: "Recipes",
+                column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Recipes_PatientId",
+                table: "Recipes",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_DiaryId",
                 table: "Users",
                 column: "DiaryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_DoctorId",
+                table: "Users",
+                column: "DoctorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_FamilyId",
@@ -151,6 +198,9 @@ namespace Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "DiaryNotes");
+
+            migrationBuilder.DropTable(
+                name: "Recipes");
 
             migrationBuilder.DropTable(
                 name: "Users");
