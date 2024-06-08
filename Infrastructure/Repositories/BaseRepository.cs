@@ -1,5 +1,6 @@
 ﻿using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
 
@@ -15,6 +16,12 @@ public abstract class BaseRepository<T> : IRepository<T> where T : class
     public async Task<List<T>> GetAll()
     {
         var models = await _db.Set<T>().ToListAsync();
+        return models;
+    }
+
+    public async Task<List<T>> Get(Expression<Func<T, bool>> predicate)
+    {
+        var models = await _db.Set<T>().Where(predicate).ToListAsync();
         return models;
     }
 

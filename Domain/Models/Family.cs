@@ -2,6 +2,12 @@
 
 public class Family
 {
+    public Family()
+    {
+        Id = Guid.NewGuid();
+        FamilyMembers = new List<User>();
+    }
+    
     public Guid Id { get; set; }
     public virtual List<User> FamilyMembers { get; set; }
 }

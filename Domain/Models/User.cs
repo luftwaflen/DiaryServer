@@ -2,6 +2,15 @@
 
 public class User
 {
+    public User(string login, string email, string password, UserRole userRole)
+    {
+        Id = Guid.NewGuid();
+        Login = login;
+        Email = email;
+        Password = password;
+        UserRole = userRole;
+    }
+
     public Guid Id { get; set; }
     public string Login { get; set; }
     public string Email { get; set; }

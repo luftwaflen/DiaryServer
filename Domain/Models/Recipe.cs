@@ -2,6 +2,16 @@
 
 public class Recipe
 {
+    public Recipe(string text, Patient patient, Doctor doctor)
+    {
+        Id = Guid.NewGuid();
+        Text = text;
+        Patient = patient;
+        PatientId = patient.Id;
+        Doctor = doctor;
+        DoctorId = doctor.Id;
+    }
+
     public Guid Id { get; set; }
     public Guid DoctorId { get; set; }
     public Guid PatientId { get; set; }
