@@ -11,7 +11,9 @@ builder.Services.AddDbContext<DiaryDbContext>(options =>
         .UseLazyLoadingProxies()
         .UseSqlServer(connection);
 });
+
 builder.Services.AddRepositories();
+builder.Services.AddServices();
 // Add services to the container.
 
 builder.Services.AddControllers();

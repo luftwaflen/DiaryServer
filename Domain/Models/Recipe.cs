@@ -2,10 +2,13 @@
 
 public class Recipe
 {
-    public Recipe(string text, Patient patient, Doctor doctor)
+    public Recipe(string text)
     {
         Id = Guid.NewGuid();
         Text = text;
+    }
+    public Recipe(string text, Patient patient, Doctor doctor) : this(text)
+    {
         Patient = patient;
         PatientId = patient.Id;
         Doctor = doctor;

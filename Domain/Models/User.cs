@@ -2,12 +2,15 @@
 
 public class User
 {
-    public User(string login, string email, string password, UserRole userRole)
+    public User(string login, string email, string password)
     {
         Id = Guid.NewGuid();
         Login = login;
         Email = email;
         Password = password;
+    }
+    public User(string login, string email, string password, UserRole userRole) : this(login, email, password)
+    {
         UserRole = userRole;
     }
 
