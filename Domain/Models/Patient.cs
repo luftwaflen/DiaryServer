@@ -8,6 +8,7 @@ public class Patient : User
         SecondName = secondName;
         Diary = new Diary();
         Recipes = new List<Recipe>();
+        PersonalDoctor = null;
     }
     public Patient(string login, string email, string password, UserRole userRole, string firstName, string secondName)
         : this(login, email, password, firstName, secondName)
@@ -18,5 +19,6 @@ public class Patient : User
     public string FirstName { get; set; }
     public string SecondName { get; set; }
     public virtual Diary Diary { get; set; }
+    public virtual Doctor? PersonalDoctor { get; set; }
     public virtual List<Recipe>? Recipes { get; set; }
 }

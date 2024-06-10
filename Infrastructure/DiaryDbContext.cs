@@ -15,6 +15,8 @@ public class DiaryDbContext : DbContext
     public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<Family> Families { get; set; }
     public DbSet<FamilyRole> FamilyRoles { get; set; }
+    public DbSet<Chat> Chats { get; set; }
+    public DbSet<Message> Messages { get; set; }
 
     public DiaryDbContext(DbContextOptions<DiaryDbContext> options) : base(options)
     {

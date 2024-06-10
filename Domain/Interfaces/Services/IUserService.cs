@@ -4,6 +4,5 @@ namespace Domain.Interfaces.Services;
 
 public interface IUserService
 {
-    Task Login(string login, string password);
-    Task<List<User>> GetUsers();
+    Task<User> Login(string login, string password);
 }
