@@ -17,7 +17,7 @@ public class UserService : IUserService
     {
         var users = await _userRepository.Get(u => u.Login == login);
         var user = users.FirstOrDefault();
-        if (user == null && user.Password == password) return user;
+        if (user != null && user.Password == password) return user;
         return null;
     }
 }

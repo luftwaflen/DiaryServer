@@ -104,6 +104,18 @@ namespace API.Controllers
             return Ok(new FamilyResponse(family));
         }
 
+        [HttpGet("GetPatientsWithoutFamily")]
+        public async Task<IActionResult> GetPatientsWithoutFamily()
+        {
+            var patients = await _patientService.GetPatientsWithoutFamily();
+            var response = new List<PatientResponse>();
+            foreach (var patient in patients)
+            {
+                response.Add(new PatientResponse(patient));
+            }
+            return Ok(response);
+        }
+
         [HttpPost("DeleteFamily")]
         public async Task<IActionResult> DeleteFamily(string familyId)
         {

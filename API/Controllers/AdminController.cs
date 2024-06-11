@@ -103,5 +103,12 @@ namespace API.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            await _adminService.DeleteUser(Guid.Parse(userId));
+            return Ok();
+        }
     }
 }

@@ -132,6 +132,12 @@ public class PatientService : IPatientService
         return patient.Family;
     }
 
+    public async Task<List<Patient>> GetPatientsWithoutFamily()
+    {
+        var patients = await _patientRepository.Get(p => p.Family == null);
+        return patients;
+    }
+
     public async Task DeleteFamily(Guid familyId)
     {
         var families = await _familyRepository.Get(f => f.Id == familyId);

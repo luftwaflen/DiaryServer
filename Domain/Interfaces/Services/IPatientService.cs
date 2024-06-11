@@ -18,6 +18,7 @@ public interface IPatientService
     Task<Doctor> GetPersonalDoctor(Guid patientId);
     Task<Family> CreateFamily(Guid patientId);
     Task<Family> GetPatientFamily(Guid patientId);
+    Task<List<Patient>> GetPatientsWithoutFamily();
     Task DeleteFamily(Guid familyId);
     Task InviteToFamily(Guid familyId, Guid patientId);
     Task RemoveFromFamily(Guid familyId, Guid patientId);

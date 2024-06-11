@@ -10,6 +10,7 @@ public interface IDoctorService
     Task UpdateDoctor(string login, string email, string password, string firstName, string secondName);
     Task DeleteDoctor(Guid doctorId);
     Task<List<Patient>> GetDoctorPatients(Guid doctorId);
+    Task<List<Patient>> GetPatientsWithoutDoctor();
     Task AppendPatient(Guid doctorId, Guid patientId);
     Task RemovePatient(Guid doctorId, Guid patientId);
     Task CreateRecipe(Guid doctorId, Guid patientId, string recipeText);

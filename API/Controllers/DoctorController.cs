@@ -36,6 +36,18 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("GetPatientsWithoutDoctor")]
+        public async Task<IActionResult> GetPatientsWithoutDoctor()
+        {
+            var patients = await _doctorService.GetPatientsWithoutDoctor();
+            var response = new List<PatientResponse>();
+            foreach (var patient in patients)
+            {
+                response.Add(new PatientResponse(patient));
+            }
+            return Ok(response);
+        }
+
         [HttpPost("AppendPatient")]
         public async Task<IActionResult> AppendPatient(DoctorPatientOperation request)
         {

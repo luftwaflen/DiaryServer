@@ -6,12 +6,15 @@ public class FamilyResponse
 {
     public FamilyResponse(Family family)
     {
-        Id = family.Id;
-        FamilyMembers = new List<UserResponse>();
-        var members = family.FamilyMembers;
-        foreach (var user in members)
+        if (family != null)
         {
-            FamilyMembers.Add(new UserResponse(user));
+            Id = family.Id;
+            FamilyMembers = new List<UserResponse>();
+            var members = family.FamilyMembers;
+            foreach (var user in members)
+            {
+                FamilyMembers.Add(new UserResponse(user));
+            }
         }
     }
 

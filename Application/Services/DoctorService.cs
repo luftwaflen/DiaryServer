@@ -61,6 +61,12 @@ public class DoctorService : IDoctorService
         return doctors.First().Patients;
     }
 
+    public async Task<List<Patient>> GetPatientsWithoutDoctor()
+    {
+        var patients = await _patientRepository.Get(p => p.PersonalDoctor == null);
+        return patients;
+    }
+
     public async Task AppendPatient(Guid doctorId, Guid patientId)
     {
         var doctors = await _doctorRepository.Get(d => d.Id == doctorId);

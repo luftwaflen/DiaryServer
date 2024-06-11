@@ -12,5 +12,5 @@ public interface IAdminService
     Task<List<Patient>> GetAllPatients();
     Task<Admin> RegisterAdmin(string login, string email, string password);
     Task UpdateAdmin(string login, string email, string password);
-    Task DeleteAdmin(Guid adminId);
+    Task DeleteUser(Guid userId);
 }

@@ -81,9 +81,9 @@ public class AdminService : IAdminService
         await _adminRepository.Update(admins.First());
     }
 
-    public async Task DeleteAdmin(Guid adminId)
+    public async Task DeleteUser(Guid userId)
     {
-        var admins = await _adminRepository.Get(a => a.Id == adminId);
-        await _adminRepository.Delete(admins.First());
+        var users = await _userRepository.Get(a => a.Id == userId);
+        await _userRepository.Delete(users.First());
     }
 }
