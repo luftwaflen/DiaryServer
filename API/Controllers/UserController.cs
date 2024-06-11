@@ -1,11 +1,13 @@
-﻿using API.Responses;
+﻿using API.Requests;
+using API.Responses;
 using Domain.Interfaces.Services;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/Api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -15,17 +17,13 @@ namespace API.Controllers
             _userService = userService;
         }
 
-        [HttpGet("GetAllUsers")]
-        public async Task<IActionResult> GetAllUsers()
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(LoginRequest request)
         {
-            var users = await _userService.GetUsers();
-            var response = new List<UserResponse>();
-            foreach (var user in users)
-            {
-                response.Add(new UserResponse(user));
-            }
-
-            return Ok(response);
+            var user = await _userService.Login(request.Login, request.Password);
+            var jwt = await JwtProvider.GetJwt(user.Id, user.UserRole.Role);
+            var token = new JwtToken(jwt);
+            return Ok(token);
         }
     }
 }

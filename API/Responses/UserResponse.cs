@@ -10,10 +10,14 @@ public class UserResponse
         Login = user.Login;
         Email = user.Email;
         UserRole = user.UserRole.Role;
+        FamilyId = user.Family.Id;
+        FamilyRole = user.FamilyRole.Role;
     }
 
     public Guid Id { get; set; }
     public string Login { get; set; }
     public string Email { get; set; }
     public string UserRole { get; set; }
+    public Guid? FamilyId { get; set; }
+    public string? FamilyRole { get; set; }
 }

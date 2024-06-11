@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/Api/[controller]")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
@@ -52,6 +52,19 @@ namespace API.Controllers
             return Ok(new DoctorResponse(doctor));
         }
 
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _adminService.GetAllUsers();
+            var response = new List<UserResponse>();
+            foreach (var user in users)
+            {
+                response.Add(new UserResponse(user));
+            }
+
+            return Ok(response);
+        }
+
         [HttpGet("GetAllAdmins")]
         public async Task<IActionResult> GetAllAdmins()
         {
@@ -60,6 +73,32 @@ namespace API.Controllers
             foreach (var admin in admins)
             {
                 response.Add(new AdminResponse(admin));
+            }
+
+            return Ok(response);
+        }
+
+        [HttpGet("GetAllDoctors")]
+        public async Task<IActionResult> GetAllDoctors()
+        {
+            var doctors = await _doctorService.GetAllDoctors();
+            var response = new List<DoctorResponse>();
+            foreach (var doctor in doctors)
+            {
+                response.Add(new DoctorResponse(doctor));
+            }
+
+            return Ok(response);
+        }
+
+        [HttpGet("GetAllPatients")]
+        public async Task<IActionResult> GetAllPatients()
+        {
+            var patients = await _patientService.GetAllPatients();
+            var response = new List<PatientResponse>();
+            foreach (var patient in patients)
+            {
+                response.Add(new PatientResponse(patient));
             }
 
             return Ok(response);

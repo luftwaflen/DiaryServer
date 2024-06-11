@@ -13,14 +13,11 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task Login(string login, string password)
+    public async Task<User> Login(string login, string password)
     {
-        throw new NotImplementedException();
-    }
-
-    public async Task<List<User>> GetUsers()
-    {
-        var users = await _userRepository.GetAll();
-        return users;
+        var users = await _userRepository.Get(u => u.Login == login);
+        var user = users.FirstOrDefault();
+        if (user == null && user.Password == password) return user;
+        return null;
     }
 }

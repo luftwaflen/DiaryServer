@@ -1,19 +1,27 @@
 ﻿using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models;
+using Infrastructure.Repositories;
 
 namespace Application.Services;
 
 public class AdminService : IAdminService
 {
+    private readonly IUserRepository _userRepository;
     private readonly IAdminRepository _adminRepository;
     private readonly IDoctorRepository _doctorRepository;
     private readonly IPatientRepository _patientRepository;
     private readonly IUserRoleRepository _userRoleRepository;
     private readonly IFamilyRoleRepository _familyRoleRepository;
 
-    public AdminService(IAdminRepository adminRepository, IDoctorRepository doctorRepository, IPatientRepository patientRepository, IUserRoleRepository userRoleRepository, IFamilyRoleRepository familyRoleRepository)
+    public AdminService(IUserRepository userRepository,
+        IAdminRepository adminRepository,
+        IDoctorRepository doctorRepository,
+        IPatientRepository patientRepository,
+        IUserRoleRepository userRoleRepository,
+        IFamilyRoleRepository familyRoleRepository)
     {
+        _userRepository = userRepository;
         _adminRepository = adminRepository;
         _doctorRepository = doctorRepository;
         _patientRepository = patientRepository;
@@ -33,10 +41,28 @@ public class AdminService : IAdminService
         await _familyRoleRepository.Create(role);
     }
 
+    public async Task<List<User>> GetAllUsers()
+    {
+        var users = await _userRepository.GetAll();
+        return users;
+    }
+
     public async Task<List<Admin>> GetAllAdmins()
     {
         var admins = await _adminRepository.GetAll();
         return admins;
+    }
+
+    public async Task<List<Doctor>> GetAllDoctors()
+    {
+        var doctors = await _doctorRepository.GetAll();
+        return doctors;
+    }
+
+    public async Task<List<Patient>> GetAllPatients()
+    {
+        var patients = await _patientRepository.GetAll();
+        return patients;
     }
 
     public async Task<Admin> RegisterAdmin(string login, string email, string password)
@@ -49,11 +75,15 @@ public class AdminService : IAdminService
 
     public async Task UpdateAdmin(string login, string email, string password)
     {
-        throw new NotImplementedException();
+        var admins  =await _adminRepository.Get(a => a.Login == login);
+        admins.First().Email = email;
+        admins.First().Password = password;
+        await _adminRepository.Update(admins.First());
     }
 
-    public async Task DeleteAdmin(string adminId)
+    public async Task DeleteAdmin(Guid adminId)
     {
-        throw new NotImplementedException();
+        var admins = await _adminRepository.Get(a => a.Id == adminId);
+        await _adminRepository.Delete(admins.First());
     }
 }

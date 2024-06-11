@@ -12,8 +12,8 @@ public interface IPatientService
     Task DeletePatient(Guid patientId);
     Task<List<DiaryNote>> GetDiary(Guid patientId);
     Task<List<DiaryNote>> AddDiaryNote(Guid patientId, string pressureSys, string pressureDia, string pulse, string description);
-    Task<List<DiaryNote>> UpdateDiaryNote(Guid diaryNoteId, string pressureSys, string pressureDia, string pulse, string description);
-    Task<List<DiaryNote>> DeleteDiaryNote(Guid diaryNoteId);
+    Task<DiaryNote> UpdateDiaryNote(Guid diaryNoteId, string pressureSys, string pressureDia, string pulse, string description);
+    Task DeleteDiaryNote(Guid diaryNoteId);
     Task<List<Recipe>> GetRecipes(Guid patientId);
     Task<Doctor> GetPersonalDoctor(Guid patientId);
     Task<Family> CreateFamily(Guid patientId);
